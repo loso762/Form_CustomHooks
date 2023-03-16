@@ -4,15 +4,18 @@ import useInput from "../hooks/use-Input";
 const BasicForm = (props) => {
   const {
     enteredValue: Fname,
-    valueChangeHandler: FnameChangeHandler,
     hasError: FnameError,
+    valueIsValid: FNameIsValid,
+    valueChangeHandler: FnameChangeHandler,
     BlurHandler: FnameBlurHandler,
     reset: FnameReset,
+    valueClass: FnameClass,
   } = useInput((value) => value.trim() !== "");
 
   const {
     enteredValue: Lname,
     valueChangeHandler: LnameChangeHandler,
+    valueIsValid: LNameIsValid,
     hasError: LnameError,
     BlurHandler: LnameBlurHandler,
     reset: LnameReset,
@@ -21,16 +24,20 @@ const BasicForm = (props) => {
   const {
     enteredValue: Email,
     valueChangeHandler: EmailChangeHandler,
+    valueIsValid: EmailIsValid,
     hasError: EmailError,
     BlurHandler: EmailBlurHandler,
     reset: EmailReset,
   } = useInput((value) => value.includes("@"));
 
-  const FnameClass = FnameError ? "no" : "ok";
   const LnameClass = LnameError ? "no" : "ok";
   const EmailClass = EmailError ? "no" : "ok";
 
-  const SubmitIsValid = !FnameError && !LnameError && !EmailError;
+  let FormIsValid = false;
+  console.log(FNameIsValid);
+  if (FNameIsValid && LNameIsValid && EmailIsValid) {
+    FormIsValid = true;
+  }
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -85,7 +92,7 @@ const BasicForm = (props) => {
       </div>
 
       <div className="form-actions">
-        <button disabled={!SubmitIsValid}>Submit</button>
+        <button disabled={!FormIsValid}>Submit</button>
       </div>
     </form>
   );
